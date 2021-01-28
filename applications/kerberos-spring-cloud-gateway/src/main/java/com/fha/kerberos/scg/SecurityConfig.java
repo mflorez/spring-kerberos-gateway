@@ -2,6 +2,7 @@ package com.fha.kerberos.scg;
 
 import com.fha.kerberos.scg.security.DummyUserDetailsService;
 import com.fha.kerberos.scg.security.ReactiveAuthenticationProviderAdapter;
+import com.fha.kerberos.scg.security.kerberos.ReactiveAuthenticationWebFilter;
 import com.fha.kerberos.scg.security.kerberos.ReactiveSpnegoAuthenticationEntryPoint;
 import com.fha.kerberos.scg.security.kerberos.ReactiveSpnegoAuthenticationProcessingFilter;
 import org.slf4j.Logger;
@@ -40,7 +41,7 @@ public class SecurityConfig {
         .authorizeExchange(e -> e.anyExchange().authenticated())
         .formLogin()
         .and()
-        .addFilterBefore(new ReactiveSpnegoAuthenticationProcessingFilter(authenticationManager()), SecurityWebFiltersOrder.HTTP_BASIC) // todo: how to test ? auth headers always empty in this filter !!!
+        .addFilterBefore(new ReactiveAuthenticationWebFilter(authenticationManager()), SecurityWebFiltersOrder.HTTP_BASIC) // todo: how to test ? auth headers always empty in this filter !!!
         .build();
   }
 
